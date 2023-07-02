@@ -1,0 +1,17 @@
+{
+  "name": "nes-emulator-wasm",
+  "collaborators": [
+    "Anne Castrillon <anne.castrillon@gmail.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "nes_emulator_wasm_bg.wasm",
+    "nes_emulator_wasm.js",
+    "nes_emulator_wasm.d.ts"
+  ],
+  "module": "nes_emulator_wasm.js",
+  "types": "nes_emulator_wasm.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ]
+}

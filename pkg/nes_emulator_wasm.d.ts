@@ -56,3 +56,42 @@ export class WasmEmulator {
 */
   update_input(button_event: number, is_pressed: boolean): void;
 }
+
+export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
+
+export interface InitOutput {
+  readonly memory: WebAssembly.Memory;
+  readonly __wbg_wasmemulator_free: (a: number) => void;
+  readonly wasmemulator_new: () => number;
+  readonly wasmemulator_set_buffer_index: (a: number, b: number) => void;
+  readonly wasmemulator_get_audio_sample_pointer: (a: number) => number;
+  readonly wasmemulator_get_buffer_index: (a: number) => number;
+  readonly wasmemulator_get_read_index: (a: number) => number;
+  readonly wasmemulator_update_buffer: (a: number, b: number, c: number, d: number) => void;
+  readonly wasmemulator_step_frame: (a: number) => void;
+  readonly wasmemulator_get_picture_pointer: (a: number) => number;
+  readonly wasmemulator_load: (a: number, b: number, c: number) => void;
+  readonly wasmemulator_update_input: (a: number, b: number, c: number) => void;
+  readonly __wbindgen_malloc: (a: number, b: number) => number;
+}
+
+export type SyncInitInput = BufferSource | WebAssembly.Module;
+/**
+* Instantiates the given `module`, which can either be bytes or
+* a precompiled `WebAssembly.Module`.
+*
+* @param {SyncInitInput} module
+*
+* @returns {InitOutput}
+*/
+export function initSync(module: SyncInitInput): InitOutput;
+
+/**
+* If `module_or_path` is {RequestInfo} or {URL}, makes a request and
+* for everything else, calls `WebAssembly.instantiate` directly.
+*
+* @param {InitInput | Promise<InitInput>} module_or_path
+*
+* @returns {Promise<InitOutput>}
+*/
+export default function __wbg_init (module_or_path?: InitInput | Promise<InitInput>): Promise<InitOutput>;

@@ -43,6 +43,15 @@ function getStringFromWasm0(ptr, len) {
     return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
 }
 
+let WASM_VECTOR_LEN = 0;
+
+function passArray8ToWasm0(arg, malloc) {
+    const ptr = malloc(arg.length * 1, 1) >>> 0;
+    getUint8Memory0().set(arg, ptr / 1);
+    WASM_VECTOR_LEN = arg.length;
+    return ptr;
+}
+
 let cachedFloat32Memory0 = null;
 
 function getFloat32Memory0() {
@@ -51,8 +60,6 @@ function getFloat32Memory0() {
     }
     return cachedFloat32Memory0;
 }
-
-let WASM_VECTOR_LEN = 0;
 
 function passArrayF32ToWasm0(arg, malloc) {
     const ptr = malloc(arg.length * 4, 4) >>> 0;
@@ -68,13 +75,6 @@ function addHeapObject(obj) {
 
     heap[idx] = obj;
     return idx;
-}
-
-function passArray8ToWasm0(arg, malloc) {
-    const ptr = malloc(arg.length * 1, 1) >>> 0;
-    getUint8Memory0().set(arg, ptr / 1);
-    WASM_VECTOR_LEN = arg.length;
-    return ptr;
 }
 /**
 */
@@ -134,6 +134,41 @@ export class WasmEmulator {
     get_read_index() {
         const ret = wasm.wasmemulator_get_read_index(this.__wbg_ptr);
         return ret;
+    }
+    /**
+    * @returns {number}
+    */
+    get_prg_ram_pointer() {
+        const ret = wasm.wasmemulator_get_prg_ram_pointer(this.__wbg_ptr);
+        return ret;
+    }
+    /**
+    * @returns {number}
+    */
+    prg_ram_length() {
+        const ret = wasm.wasmemulator_prg_ram_length(this.__wbg_ptr);
+        return ret >>> 0;
+    }
+    /**
+    * @returns {boolean}
+    */
+    prg_save() {
+        const ret = wasm.wasmemulator_prg_save(this.__wbg_ptr);
+        return ret !== 0;
+    }
+    /**
+    * @param {boolean} val
+    */
+    set_prg_save(val) {
+        wasm.wasmemulator_set_prg_save(this.__wbg_ptr, val);
+    }
+    /**
+    * @param {Uint8Array} ram
+    */
+    load_prg_ram(ram) {
+        const ptr0 = passArray8ToWasm0(ram, wasm.__wbindgen_malloc);
+        const len0 = WASM_VECTOR_LEN;
+        wasm.wasmemulator_load_prg_ram(this.__wbg_ptr, ptr0, len0);
     }
     /**
     * @param {Float32Array} buffer

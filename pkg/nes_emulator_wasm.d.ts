@@ -36,6 +36,26 @@ export class WasmEmulator {
 */
   get_read_index(): number;
 /**
+* @returns {number}
+*/
+  get_prg_ram_pointer(): number;
+/**
+* @returns {number}
+*/
+  prg_ram_length(): number;
+/**
+* @returns {boolean}
+*/
+  prg_save(): boolean;
+/**
+* @param {boolean} val
+*/
+  set_prg_save(val: boolean): void;
+/**
+* @param {Uint8Array} ram
+*/
+  load_prg_ram(ram: Uint8Array): void;
+/**
 * @param {Float32Array} buffer
 */
   update_buffer(buffer: Float32Array): void;
@@ -67,6 +87,11 @@ export interface InitOutput {
   readonly wasmemulator_get_audio_sample_pointer: (a: number) => number;
   readonly wasmemulator_get_buffer_index: (a: number) => number;
   readonly wasmemulator_get_read_index: (a: number) => number;
+  readonly wasmemulator_get_prg_ram_pointer: (a: number) => number;
+  readonly wasmemulator_prg_ram_length: (a: number) => number;
+  readonly wasmemulator_prg_save: (a: number) => number;
+  readonly wasmemulator_set_prg_save: (a: number, b: number) => void;
+  readonly wasmemulator_load_prg_ram: (a: number, b: number, c: number) => void;
   readonly wasmemulator_update_buffer: (a: number, b: number, c: number, d: number) => void;
   readonly wasmemulator_step_frame: (a: number) => void;
   readonly wasmemulator_get_picture_pointer: (a: number) => number;
